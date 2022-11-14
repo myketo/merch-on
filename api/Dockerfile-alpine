@@ -1,4 +1,4 @@
-FROM php:8.1.12-fpm
+FROM php:8.1.12-fpm-alpine
 
 # Copy composer.lock and composer.json
 COPY ./composer.lock ./composer.json /var/www/
@@ -7,20 +7,18 @@ COPY ./composer.lock ./composer.json /var/www/
 WORKDIR /var/www
 
 # Install dependencies
-RUN apt-get update \
-    && apt-get install -y \
+RUN apk -U add -u \
     libpq-dev \
     libzip-dev \
+    freetype-dev \
+    libjpeg-turbo-dev \
     libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
     zip \
     jpegoptim optipng pngquant gifsicle \
     vim \
     unzip \
     git \
     curl \
-    && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-install pdo pdo_pgsql zip exif pcntl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \

@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  webserver:
+    container_name: webserver
+    image: nginx:alpine
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./api/:/var/www
+    ports:
+      - '8080:80'
+      - '443:443'
+    networks:
+      - app-network
+    depends_on:
+      - rest
+      - database
+
+  rest:
+    container_name: rest
+    restart: unless-stopped
+    tty: true
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile
+    volumes:
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      - ./api/:/var/www
+    ports:
+      - '9000:9000'
+    networks:
+      - app-network
+
+  database:
+    image: postgres
+    restart: unless-stopped
+    tty: true
+    container_name: database
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: merch-on
+      POSTGRES_PASSWORD: kanapka
+      SERVICE_TAGS: dev
+      SERVICE_NAME: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./docker/postgresql/postgresql.conf:/usr/share/postgresql/postgresql.conf
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local

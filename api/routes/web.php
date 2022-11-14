@@ -14,5 +14,12 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    echo phpinfo();
+
+//    try {
+//        \Illuminate\Support\Facades\DB::connection()->getPDO();
+//        echo \Illuminate\Support\Facades\DB::connection()->getDatabaseName();
+//    } catch (\Exception $e) {
+//        echo 'None';
+//    }
 });
