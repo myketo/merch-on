@@ -28,7 +28,8 @@ RUN apt-get update \
     && pecl install -o -f redis \
     && rm -rf /tmp/pear \
     && docker-php-ext-enable redis \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && composer install
 
 # Copy existing application directory permissions
 COPY --chown=www:www ./ /var/www

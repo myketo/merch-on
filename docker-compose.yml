@@ -62,6 +62,16 @@ services:
     networks:
       - app-network
 
+  frontend:
+    container_name: frontend
+    build:
+      context: ./app-frontend
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./app-frontend:/usr/src/app
+    ports:
+      - '3000:3000'
+
 networks:
   app-network:
     driver: bridge
