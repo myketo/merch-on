@@ -1,13 +1,33 @@
 {
+  "name": "merch-on",
   "private": true,
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint": "eslint --ext \".ts,.js,.vue\" --ignore-path .gitignore .",
+    "lintfix": "eslint --fix --ext \".ts,.js,.vue\" --ignore-path .gitignore ."
+  },
+  "dependencies": {
+    "@mdi/font": "^7.0.96",
+    "nuxt": "3.0.0",
+    "sass": "^1.56.1",
+    "typescript": "^4.9.3",
+    "vuetify": "^3.0.3"
   },
   "devDependencies": {
-    "nuxt": "3.0.0"
+    "eslint": "^8.29.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "@vue/eslint-config-standard": "^8.0.1",
+    "autoprefixer": "^10.4.13",
+    "prettier": "^2.8.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-nuxt": "^4.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^9.8.0"
   }
 }

@@ -13,5 +13,9 @@ ENV NUXT_HOST=0.0.0.0
 ENV NUXT_PORT=3000
 ENV PATH ./node_modules/.bin/:$PATH
 
+COPY --chown=www:www . .
+
 EXPOSE 3000
+EXPOSE 24678
+
 CMD ["npm", "run", "dev"]
