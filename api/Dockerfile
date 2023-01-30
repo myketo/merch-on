@@ -34,6 +34,8 @@ RUN apt-get update \
 # Copy existing application directory permissions
 COPY --chown=www:www ./ /var/www
 
+RUN chmod -R 777 storage
+
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
 CMD ["php-fpm"]

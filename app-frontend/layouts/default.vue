@@ -1,0 +1,16 @@
+<template>
+  <div id="app" class="bg-white">
+    <TheNavigation></TheNavigation>
+
+    <slot></slot>
+  </div>
+</template>
+
+<script setup>
+const config = useRuntimeConfig();
+const appConfig = useAppConfig();
+
+useHead({
+  title: null,
+});
+</script>

@@ -1,18 +1,32 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   // server side rendering mode
-  // ssr: true,
+  ssr: false,
 
-  css: [
-    'vuetify/lib/styles/main.sass',
-    '@mdi/font/css/materialdesignicons.min.css',
-  ],
-  build: {
-    transpile: ['vuetify'],
-  },
+  css: ["~/assets/css/main.css"],
+
+  modules: ["@nuxtjs/tailwindcss"],
+
   runtimeConfig: {
     public: {
-      apiBase: '',
+      apiBaseUrl: process.env.API_BASE_URL,
+      apiKey: process.env.API_KEY,
     },
   },
+
+  app: {
+    head: {
+      title: "Merch On",
+    },
+  },
+
+  // vite: {
+  //   css: {
+  //     preprocessorOptions: {
+  //       scss: {
+  //         additionalData: '@use "@/assets/_colors.scss" as *;',
+  //       },
+  //     },
+  //   },
+  // },
 });

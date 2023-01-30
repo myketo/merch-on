@@ -28,7 +28,7 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Throwable  $exception
+     * @param \Throwable $exception
      * @return void
      *
      * @throws \Exception
@@ -41,14 +41,31 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Throwable  $exception
+     * @param \Illuminate\Http\Request $request
+     * @param \Throwable $exception
      * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
      *
      * @throws \Throwable
      */
     public function render($request, Throwable $exception)
     {
-        return parent::render($request, $exception);
+        $statusCode = $exception->getCode();
+        if (!is_numeric($statusCode) || !isset(\Illuminate\Http\Response::$statusTexts[$statusCode])) {
+            $statusCode = 500;
+        }
+
+        $error['error'] = \Illuminate\Http\Response::$statusTexts[$statusCode];
+        if (env('APP_DEBUG')) {
+            $error['message'] = $exception->getMessage();
+            $error['file'] = $exception->getFile() . ':' . $exception->getLine();
+            $error['trace'] = explode("\n", $exception->getTraceAsString());
+        }
+
+        return response()->json(
+            $error,
+            $statusCode ?: 500,
+            [],
+            JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
+        );
     }
 }
