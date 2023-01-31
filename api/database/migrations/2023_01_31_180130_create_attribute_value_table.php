@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('category', function (Blueprint $table) {
+        Schema::create('attribute_value', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100)->index();
-            $table->foreignId('parent_id')->nullable()->constrained('category');
+            $table->foreignId('attribute_id')->index()->constrained('attribute');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category');
+        Schema::dropIfExists('attribute_value');
     }
 };

@@ -84,14 +84,17 @@
                         <p aria-hidden="true" class="mt-1">Shop now</p>
                       </div>
                     </div>
+
                     <div
                       v-for="category in mainCategory.categories"
                       :key="category.name">
-                      <p
+                      <NuxtLink
                         :id="`${mainCategory.id}-${category.id}-heading-mobile`"
-                        class="font-medium text-gray-900">
+                        :to="`/${category.id}/products`"
+                        class="font-medium text-gray-900"
+                        @click="open = false">
                         {{ category.name }}
-                      </p>
+                      </NuxtLink>
                       <ul
                         role="list"
                         :aria-labelledby="`${mainCategory.id}-${category.id}-heading-mobile`"
@@ -100,10 +103,11 @@
                           v-for="subCategory in category.subcategories"
                           :key="subCategory.name"
                           class="flow-root">
-                          <a
-                            :href="`category/${subCategory.id}`"
+                          <NuxtLink
+                            :to="`/${subCategory.id}/products`"
                             class="-m-2 block p-2 text-gray-500"
-                            >{{ subCategory.name }}</a
+                            @click="open = false"
+                            >{{ subCategory.name }}</NuxtLink
                           >
                         </li>
                       </ul>
@@ -175,10 +179,10 @@
 
             <!-- Logo -->
             <div class="ml-4 flex lg:ml-0">
-              <a href="#">
+              <NuxtLink to="/">
                 <span class="sr-only">{{ appConfig.title }}</span>
                 <img class="h-8 w-auto" src="/gfx/kot.png" alt="" />
-              </a>
+              </NuxtLink>
             </div>
 
             <!-- Flyout menus -->
@@ -209,6 +213,7 @@
                     leave-from-class="opacity-100"
                     leave-to-class="opacity-0">
                     <PopoverPanel
+                      v-slot="{ close }"
                       class="absolute inset-x-0 top-full text-sm text-gray-500">
                       <!-- Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow -->
                       <div
@@ -241,17 +246,19 @@
                                 <p aria-hidden="true" class="mt-1">Shop now</p>
                               </div>
                             </div>
+
                             <div
                               class="row-start-1 grid grid-cols-3 gap-y-10 gap-x-8 text-sm">
                               <div
                                 v-for="category in mainCategory.categories"
                                 :key="category.name">
-                                <RouterLink
+                                <NuxtLink
                                   :id="`${category.name}-heading`"
-                                  :to="`/category/${mainCategory.id}`"
-                                  class="font-medium text-gray-900">
+                                  :to="`/${mainCategory.id}/products`"
+                                  class="font-medium text-gray-900"
+                                  @click="close()">
                                   {{ category.name }}
-                                </RouterLink>
+                                </NuxtLink>
                                 <ul
                                   role="list"
                                   :aria-labelledby="`${category.name}-heading`"
@@ -260,10 +267,11 @@
                                     v-for="subCategory in category.subcategories"
                                     :key="subCategory.name"
                                     class="flex">
-                                    <a
-                                      :href="`category/${subCategory.id}`"
+                                    <NuxtLink
+                                      :to="`/${subCategory.id}/products`"
                                       class="hover:text-gray-800"
-                                      >{{ subCategory.name }}</a
+                                      @click="close()"
+                                      >{{ subCategory.name }}</NuxtLink
                                     >
                                   </li>
                                 </ul>

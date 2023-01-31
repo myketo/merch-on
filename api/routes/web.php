@@ -15,8 +15,12 @@
 
 use Laravel\Lumen\Routing\Router;
 
-$router->group(['prefix' => 'ui', 'middleware' => 'appAuth'], function () use ($router) {
-    $router->get('categories-tree', 'CategoryController@navigationTree');
+$router->group(['middleware' => 'appAuth'], function () use ($router) {
+    $router->group(['prefix' => 'ui'], function () use ($router) {
+        $router->get('categories-tree', 'CategoryController@navigationTree');
+    });
+
+    $router->get('categories/{categoryId:[0-9]+}/products', 'ProductController@indexByCategory');
 });
 
 $router->group(['middleware' => 'cmsAuth'], function () use ($router) {

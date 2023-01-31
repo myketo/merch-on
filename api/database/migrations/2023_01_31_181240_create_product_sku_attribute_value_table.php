@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('category', function (Blueprint $table) {
-            $table->id();
-            $table->string('name', 100)->index();
-            $table->foreignId('parent_id')->nullable()->constrained('category');
-            $table->timestamps();
+        Schema::create('product_sku_attribute_value', function (Blueprint $table) {
+            $table->foreignId('product_sku_id')->index()->constrained('product_sku');
+            $table->foreignId('attribute_value_id')->index()->constrained('attribute_value');
+
+            $table->primary(['product_sku_id', 'attribute_value_id']);
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category');
+        Schema::dropIfExists('product_sku_attribute_value');
     }
 };

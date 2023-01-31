@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
@@ -24,39 +25,46 @@ class CategoryController extends Controller
 
     public function indexMain()
     {
-        $mainCategories = Category::all()->where('parent_id', 'IS', null);
+        $mainCategories = Category::query()
+            ->where('parent_id', 'IS', null)
+            ->get();
 
         return response()->json($mainCategories);
     }
 
     public function navigationTree($mainAmount = 3, $amount = 3, $subAmount = 6)
     {
-        $mainCategories = Category::query()
-            ->select(['id', 'name'])
-            ->where('parent_id', '=', null)
-            ->limit($mainAmount)
-            ->get();
-
-        foreach ($mainCategories as $mainIndex => $mainCategory) {
-            $categories = Category::query()
+        $mainCategories = Cache::get('navigationTree');
+        if (!$mainCategories) {
+            $mainCategories = Category::query()
                 ->select(['id', 'name'])
-                ->where('parent_id', '=', $mainCategory['id'])
-                ->limit($amount)
-                ->get()
-                ->toArray();
+                ->where('parent_id', '=', null)
+                ->limit($mainAmount)
+                ->get();
 
-            foreach ($categories as $index => $category) {
-                $subCategories = Category::query()
+            foreach ($mainCategories as $mainIndex => $mainCategory) {
+                $categories = Category::query()
                     ->select(['id', 'name'])
-                    ->where('parent_id', '=', $category['id'])
-                    ->limit($subAmount)
+                    ->where('parent_id', '=', $mainCategory['id'])
+                    ->limit($amount)
                     ->get()
                     ->toArray();
 
-                $categories[$index]['subcategories'] = $subCategories;
+                foreach ($categories as $index => $category) {
+                    $subCategories = Category::query()
+                        ->select(['id', 'name'])
+                        ->where('parent_id', '=', $category['id'])
+                        ->limit($subAmount)
+                        ->get()
+                        ->toArray();
+
+                    $categories[$index]['subcategories'] = $subCategories;
+                }
+
+                $mainCategories[$mainIndex]['categories'] = $categories;
             }
 
-            $mainCategories[$mainIndex]['categories'] = $categories;
+            Cache::put('navigationTree', $mainCategories, 86400); // 1 day
         }
 
         return response()->json($mainCategories);

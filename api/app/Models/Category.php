@@ -31,8 +31,8 @@ class Category extends Model
     /**
      * Get all the products for the category.
      */
-    public function products(): \Illuminate\Database\Eloquent\Relations\MorphToMany
+    public function products(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->morphToMany(Product::class, 'product_category');
+        return $this->belongsToMany(Product::class, 'product_category');
     }
 }
