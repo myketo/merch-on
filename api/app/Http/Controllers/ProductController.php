@@ -99,7 +99,7 @@ class ProductController extends Controller
 
         $productSkus = $product
             ->skus()
-            ->select(['name', 'sku', 'amount', 'active'])
+            ->select(['id', 'name', 'sku', 'amount', 'active'])
             ->get()
             ->toArray();
 

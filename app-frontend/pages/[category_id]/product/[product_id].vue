@@ -133,7 +133,7 @@
             <!--            </div>-->
 
             <!-- Sizes -->
-            <div class="mt-10">
+            <div class="mt-10 mb-3">
               <div class="flex items-center justify-between">
                 <h3 class="text-lg font-medium text-gray-900">Size</h3>
                 <!--                <a-->
@@ -198,9 +198,91 @@
               </RadioGroup>
             </div>
 
+            <div
+              v-if="success"
+              id="alert-3"
+              class="flex p-4 mt-7 mb-3 items-center text-green-800 rounded-lg bg-green-50"
+              role="alert">
+              <svg
+                aria-hidden="true"
+                class="flex-shrink-0 w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  fill-rule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clip-rule="evenodd"></path>
+              </svg>
+              <span class="sr-only">Success</span>
+              <div class="ml-3 text-sm font-medium">
+                {{ success }}
+              </div>
+              <button
+                type="button"
+                class="ml-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex h-8 w-8"
+                data-dismiss-target="#alert-3"
+                aria-label="Close"
+                @click="success = null">
+                <span class="sr-only">Close</span>
+                <svg
+                  aria-hidden="true"
+                  class="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div
+              v-if="error"
+              id="alert-error"
+              class="flex p-4 mt-7 mb-3 items-center text-red-800 rounded-lg bg-red-50"
+              role="alert">
+              <svg
+                aria-hidden="true"
+                class="flex-shrink-0 w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  fill-rule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clip-rule="evenodd"></path>
+              </svg>
+              <span class="sr-only">Error</span>
+              <div class="ml-3 text-sm font-medium">
+                {{ error }}
+              </div>
+              <button
+                type="button"
+                class="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8"
+                data-dismiss-target="#alert-error"
+                aria-label="Close"
+                @click="error = null">
+                <span class="sr-only">Close</span>
+                <svg
+                  class="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </button>
+            </div>
+
             <button
               type="submit"
-              class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+              class="mt-7 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              @click.prevent="addToCart">
               Add to bag
             </button>
           </form>
@@ -245,14 +327,21 @@
       </div>
     </div>
   </div>
+
+  {{ cartStore.products }}
 </template>
 
 <script setup>
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from "@headlessui/vue";
+import { useCartStore } from "~/store/cart";
 
 const route = useRoute();
 
+const cartStore = useCartStore();
+// cartStore.products = [];
+
 const productData = ref({});
+const selectedSize = ref({});
 
 onMounted(() => {
   loadProductData();
@@ -272,58 +361,53 @@ const setProductData = (apiResponse) => {
   productData.value = apiResponse;
 };
 
-const product = {
-  name: "Basic Tee 6-Pack",
-  price: "$192",
-  href: "#",
-  breadcrumbs: [
-    { id: 1, name: "Men", href: "#" },
-    { id: 2, name: "Clothing", href: "#" },
-  ],
-  images: [
-    {
-      src: "https://tailwindui.com/img/ecommerce-images/product-page-02-secondary-product-shot.jpg",
-      alt: "Two each of gray, white, and black shirts laying flat.",
-    },
-    {
-      src: "https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg",
-      alt: "Model wearing plain black basic tee.",
-    },
-    {
-      src: "https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg",
-      alt: "Model wearing plain gray basic tee.",
-    },
-    {
-      src: "https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg",
-      alt: "Model wearing plain white basic tee.",
-    },
-  ],
-  colors: [
-    { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
-    { name: "Gray", class: "bg-gray-200", selectedClass: "ring-gray-400" },
-    { name: "Black", class: "bg-gray-900", selectedClass: "ring-gray-900" },
-  ],
-  sizes: [
-    { name: "XXS", inStock: false },
-    { name: "XS", inStock: true },
-    { name: "S", inStock: true },
-    { name: "M", inStock: true },
-    { name: "L", inStock: true },
-    { name: "XL", inStock: true },
-    { name: "2XL", inStock: true },
-    { name: "3XL", inStock: true },
-  ],
-  description:
-    'The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.',
-  highlights: [
-    "Hand cut and sewn locally",
-    "Dyed with our proprietary colors",
-    "Pre-washed & pre-shrunk",
-    "Ultra-soft 100% cotton",
-  ],
-  details:
-    'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.',
+const error = ref(null);
+const success = ref(null);
+
+const addToCart = () => {
+  error.value = null;
+  success.value = null;
+
+  if (!selectedSize.value) {
+    error.value = "Please select a size first.";
+    return;
+  }
+
+  const addResult = cartStore.add({
+    id: productData.value.id,
+    name: productData.value.name,
+    price: productData.value.price,
+    mainImage: productData.value.images.find((image) => image.is_main === true),
+    sizes: [
+      {
+        id: selectedSize.value.id,
+        name: selectedSize.value.name,
+        sku: selectedSize.value.sku,
+        amount: 1,
+      },
+    ],
+  });
+
+  if (addResult === true) {
+    success.value = "Product added to cart!";
+  } else {
+    error.value = "Product size is already in cart.";
+  }
 };
 
-const selectedSize = ref(product.sizes[2]);
+// const product = {
+//   colors: [
+//     { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
+//     { name: "Gray", class: "bg-gray-200", selectedClass: "ring-gray-400" },
+//     { name: "Black", class: "bg-gray-900", selectedClass: "ring-gray-900" },
+//   ],
+//   highlights: [
+//     "Hand cut and sewn locally",
+//     "Dyed with our proprietary colors",
+//     "Pre-washed & pre-shrunk",
+//     "Ultra-soft 100% cotton",
+//   ],
+//   details:
+//     'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.',
+// };
 </script>
