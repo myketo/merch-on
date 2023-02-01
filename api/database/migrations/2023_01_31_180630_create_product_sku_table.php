@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('product_sku', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('product_id')->index()->constrained('product');
+            $table->string('name')->index();
             $table->string('sku')->unique();
             $table->integer('amount');
             $table->boolean('active')->index();

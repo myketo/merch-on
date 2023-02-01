@@ -1,5 +1,6 @@
 <template>
   <div class="bg-white">
+    <!--    TODO: ADD BREADCRUMBS AND PAGE TITLE-->
     <div
       class="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
       <h2 class="sr-only">Products</h2>
@@ -9,7 +10,7 @@
         <NuxtLink
           v-for="product in products"
           :key="product.id"
-          :to="`/product/${product.id}`"
+          :to="`/${route.params.category_id}/product/${product.id}`"
           class="group">
           <div
             class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
@@ -29,6 +30,8 @@
 </template>
 
 <script setup>
+const route = useRoute();
+
 defineProps({
   products: {
     type: [Array],

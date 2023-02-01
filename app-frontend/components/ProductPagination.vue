@@ -4,13 +4,13 @@
     <div class="flex flex-1 justify-between sm:hidden">
       <NuxtLink
         :event="data.current_page === 1 ? '' : 'click'"
-        class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        class="cursor-pointer relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         @click.prevent="changePage(-1)"
         >Previous</NuxtLink
       >
       <NuxtLink
         :event="data.current_page === data.total_pages ? '' : 'click'"
-        class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        class="cursor-pointer relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         @click.prevent="changePage(1)"
         >Next</NuxtLink
       >
@@ -39,7 +39,7 @@
           aria-label="Pagination">
           <NuxtLink
             :event="data.current_page === 1 ? '' : 'click'"
-            class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
+            class="cursor-pointer relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
             @click.prevent="changePage(-1)">
             <span class="sr-only">Previous</span>
             <ChevronLeftIcon class="h-5 w-5" aria-hidden="true" />
@@ -48,27 +48,27 @@
           <a
             v-show="data.current_page > 1"
             href="#"
-            class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
+            class="cursor-pointer relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
             @click.prevent="changePage(-1)"
             >{{ data.current_page - 1 }}</a
           >
           <a
             href="#"
             aria-current="page"
-            class="relative z-10 inline-flex items-center border border-indigo-500 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20"
+            class="cursor-pointer relative z-10 inline-flex items-center border border-indigo-500 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20"
             @click.prevent="changePage()"
             >{{ data.current_page }}</a
           >
           <a
             v-show="data.current_page < data.total_pages"
             href="#"
-            class="relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 md:inline-flex"
+            class="cursor-pointer relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 md:inline-flex"
             @click.prevent="changePage(1)"
             >{{ data.current_page + 1 }}</a
           >
           <NuxtLink
             :event="data.current_page === data.total_pages ? '' : 'click'"
-            class="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
+            class="cursor-pointer relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
             @click.prevent="changePage(1)">
             <span class="sr-only">Next</span>
             <ChevronRightIcon class="h-5 w-5" aria-hidden="true" />

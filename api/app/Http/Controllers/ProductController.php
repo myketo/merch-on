@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -24,20 +25,24 @@ class ProductController extends Controller
 
         $limit = $request->input('limit') ?? 30;
 
-        $query = Category::findOrFail($categoryId)
-            ->products()
+        $categories = Category::getAllChildrenIds($categoryId);
+
+        $query = DB::table('product')
             ->select([
+                'product.id',
                 'product.name',
                 'product.price',
                 'product_image.filename AS main_image_filename',
                 'product_image.description AS main_image_alt'
             ])
+            ->join('product_category', 'product.id', 'product_category.product_id')
             ->leftJoin('product_image', 'product_image.product_id', '=', 'product.id')
+            ->whereIn('product_category.category_id', $categories)
             ->where('product.active', true)
             ->where('product_image.active', true)
             ->where('product_image.is_main', true)
             ->orderBy('product.id', 'desc')
-            ->orderBy('product_image.position', 'asc')
+            ->orderBy('product_image.position')
             ->orderBy('product_image.id', 'desc');
 
         $totalAmount = $query->count();
@@ -69,6 +74,46 @@ class ProductController extends Controller
     {
         //
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function showForApp(Request $request, int $id)
+    {
+        $product = Product::where('id', '=', $id)
+            ->where('active', '=', true)
+            ->firstOrFail();
+
+        $productImages = $product
+            ->images()
+            ->select(['filename as src', 'description as alt', 'is_main'])
+            ->where('active', true)
+            ->orderBy('is_main', 'desc')
+            ->orderBy('position', 'desc')
+            ->limit(3)
+            ->get()
+            ->toArray();
+
+        $productSkus = $product
+            ->skus()
+            ->select(['name', 'sku', 'amount', 'active'])
+            ->get()
+            ->toArray();
+
+        $product = $product->toArray();
+        $product['images'] = $productImages;
+        $product['skus'] = $productSkus;
+
+        if ($categoryId = $request->input('category_id')) {
+            $product['breadcrumbs'] = Category::breadcrumbs($categoryId);
+        }
+
+        return response()->json($product);
+    }
+
 
     /**
      * Update the specified resource in storage.

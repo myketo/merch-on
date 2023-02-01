@@ -1,12 +1,15 @@
 <template>
-  <div
-    v-if="!products.length || !Object.keys(paginationData).length"
-    class="mt-5 ml-8">
-    <h1 class="text-xl">Brak produktów.</h1>
-  </div>
+  <div v-if="loading"></div>
   <div v-else>
-    <ProductListing :products="products"></ProductListing>
-    <ProductPagination :data="paginationData"></ProductPagination>
+    <div
+      v-if="!products.length || !Object.keys(paginationData).length"
+      class="mt-5 ml-8">
+      <h1 class="text-xl">Brak produktów.</h1>
+    </div>
+    <div v-else>
+      <ProductListing :products="products"></ProductListing>
+      <ProductPagination :data="paginationData"></ProductPagination>
+    </div>
   </div>
 </template>
 
@@ -19,9 +22,14 @@ onMounted(() => {
 
 onBeforeRouteUpdate((to, from, next) => {
   loadProducts(to.query.page, to.query.limit);
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
   next();
 });
 
+const loading = ref(true);
 const products = ref([]);
 const paginationData = ref({});
 
@@ -46,5 +54,7 @@ const setProducts = (response) => {
 
   delete response.data;
   paginationData.value = response;
+
+  loading.value = false;
 };
 </script>

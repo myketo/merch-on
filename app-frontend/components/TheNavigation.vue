@@ -186,7 +186,7 @@
             </div>
 
             <!-- Flyout menus -->
-            <PopoverGroup class="hidden lg:ml-8 lg:block lg:self-stretch">
+            <PopoverGroup class="hidden lg:ml-8 lg:block lg:self-stretch z-50">
               <div class="flex h-full space-x-8">
                 <Popover
                   v-for="mainCategory in navigation.categoryTree"
@@ -378,8 +378,11 @@ import {
   ShoppingBagIcon,
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
+import { useUiStore } from "~/store/ui";
 
 const appConfig = useAppConfig();
+
+const uiStore = useUiStore();
 
 const open = ref(false);
 
@@ -392,7 +395,11 @@ const navigation = ref({
 });
 
 onMounted(() => {
-  loadCategoryTree();
+  if (uiStore.categoryTree.length) {
+    navigation.value.categoryTree = uiStore.categoryTree;
+  } else {
+    loadCategoryTree();
+  }
 });
 
 const loadCategoryTree = () => {
@@ -421,6 +428,6 @@ const setCategoryTree = (categoryTree) => {
   //   },
   // ];
 
-  navigation.value.categoryTree = categoryTree;
+  uiStore.categoryTree = navigation.value.categoryTree = categoryTree;
 };
 </script>

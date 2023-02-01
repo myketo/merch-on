@@ -13,6 +13,14 @@ class ProductSku extends Model
      */
     protected $table = 'product_sku';
 
+    const SIZE_NAMES = [
+        'S',
+        'M',
+        'L',
+        'XL',
+        'XXL',
+    ];
+
     /**
      * Get all the products for the category.
      */
