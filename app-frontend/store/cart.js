@@ -4,9 +4,10 @@ export const useCartStore = defineStore({
   id: "cartStore",
   state: () => ({
     products: [],
+    cartTabOpen: false,
   }),
   actions: {
-    add(newProduct) {
+    addProduct(newProduct) {
       // Empty carts
       if (!this.products.length) {
         this.products.push(newProduct);
@@ -14,33 +15,47 @@ export const useCartStore = defineStore({
       }
 
       const existingProductKey = this.products.findIndex(
-        (product) => newProduct.id === product.id
+        (product) =>
+          newProduct.id === product.id && newProduct.size.id === product.size.id
       );
       // Product not in cart
-      if (existingProductKey === undefined) {
+      if (existingProductKey === -1) {
         this.products.push(newProduct);
-        return true;
-      }
-
-      const sizeExists = this.products[existingProductKey].sizes.find(
-        (size) => newProduct.sizes[0].id === size.id
-      );
-      // Size not in cart
-      if (sizeExists === undefined) {
-        this.products[existingProductKey].sizes.push(newProduct.sizes[0]);
         return true;
       }
 
       return false;
     },
+    removeProduct(productToRemove) {
+      this.products = this.products.filter(
+        (product) =>
+          productToRemove.id !== product.id ||
+          productToRemove.size.id !== product.size.id
+      );
+    },
+    toggleTab() {
+      this.cartTabOpen = !this.cartTabOpen;
+    },
     remove: () => ({}),
   },
   getters: {
-    count: () => ({}),
-    totalValue: () => ({}),
+    productCount() {
+      return this.products.reduce(function (a, b) {
+        return a + b.amount;
+      }, 0);
+    },
+    totalValue() {
+      return this.products
+        .reduce(function (a, b) {
+          return a + b.price * b.amount;
+        }, 0)
+        .toFixed(2);
+    },
   },
-  persist: true,
-  // persist: {
-  //   storage: persistedState.localStorage, // sessionStorage
-  // },
+  persist: {
+    // sessionStorage localStorage
+    storage: persistedState.cookiesWithOptions({
+      sameSite: "strict",
+    }),
+  },
 });

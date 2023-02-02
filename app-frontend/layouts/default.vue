@@ -1,6 +1,7 @@
 <template>
   <div id="app" class="bg-white">
     <TheNavigation></TheNavigation>
+    <TheCart></TheCart>
 
     <slot></slot>
   </div>

@@ -337,16 +337,18 @@
 
               <!-- Cart -->
               <div class="ml-4 flow-root lg:ml-6">
-                <a href="#" class="group -m-2 flex items-center p-2">
+                <button
+                  class="group -m-2 flex items-center p-2"
+                  @click="cartStore.toggleTab()">
                   <ShoppingBagIcon
                     class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                     aria-hidden="true" />
                   <span
                     class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800"
-                    >0</span
+                    >{{ cartStore.productCount }}</span
                   >
                   <span class="sr-only">items in cart, view bag</span>
-                </a>
+                </button>
               </div>
             </div>
           </div>
@@ -379,10 +381,12 @@ import {
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
 import { useUiStore } from "~/store/ui";
+import { useCartStore } from "~/store/cart";
 
 const appConfig = useAppConfig();
 
 const uiStore = useUiStore();
+const cartStore = useCartStore();
 
 const open = ref(false);
 

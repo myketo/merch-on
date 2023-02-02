@@ -7,8 +7,10 @@ export const useUiStore = defineStore({
   }),
   actions: {},
   getters: {},
-  persist: true,
-  // persist: {
-  //   storage: persistedState.localStorage, // sessionStorage
-  // },
+  persist: {
+    // sessionStorage localStorage
+    storage: persistedState.cookiesWithOptions({
+      sameSite: "strict",
+    }),
+  },
 });
