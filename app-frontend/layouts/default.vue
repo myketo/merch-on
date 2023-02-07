@@ -4,6 +4,8 @@
     <TheCart></TheCart>
 
     <slot></slot>
+
+    <TheFooter></TheFooter>
   </div>
 </template>
 

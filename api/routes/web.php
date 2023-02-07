@@ -23,6 +23,11 @@ $router->group(['middleware' => 'appAuth'], function () use ($router) {
     $router->get('categories/{categoryId:[0-9]+}/products', 'ProductController@indexByCategory');
 
     $router->get('products/show/{id:[0-9]+}', 'ProductController@showForApp');
+
+    $router->get('delivery-methods', 'DeliveryController@index');
+    $router->get('payment-methods', 'PaymentController@index');
+
+    $router->post('order/create', 'OrderController@store');
 });
 
 $router->group(['middleware' => 'cmsAuth'], function () use ($router) {

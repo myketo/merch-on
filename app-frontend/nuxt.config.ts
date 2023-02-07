@@ -20,7 +20,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: "Merch On",
+      title: "MerchOn",
     },
   },
 

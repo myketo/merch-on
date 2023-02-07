@@ -61,29 +61,29 @@
                     v-for="mainCategory in navigation.categoryTree"
                     :key="mainCategory.name"
                     class="space-y-10 px-4 pt-10 pb-8">
-                    <div class="grid grid-cols-2 gap-x-4">
-                      <div
-                        v-for="featuredCategory in mainCategory.featured"
-                        :key="featuredCategory.name"
-                        class="group relative text-sm">
-                        <div
-                          class="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
-                          <img
-                            :src="featuredCategory.imageSrc"
-                            :alt="featuredCategory.imageAlt"
-                            class="object-cover object-center" />
-                        </div>
-                        <a
-                          :href="featuredCategory.href"
-                          class="mt-6 block font-medium text-gray-900">
-                          <span
-                            class="absolute inset-0 z-10"
-                            aria-hidden="true" />
-                          {{ featuredCategory.name }}
-                        </a>
-                        <p aria-hidden="true" class="mt-1">Shop now</p>
-                      </div>
-                    </div>
+                    <!--                    <div class="grid grid-cols-2 gap-x-4">-->
+                    <!--                      <div-->
+                    <!--                        v-for="featuredCategory in mainCategory.featured"-->
+                    <!--                        :key="featuredCategory.name"-->
+                    <!--                        class="group relative text-sm">-->
+                    <!--                        <div-->
+                    <!--                          class="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">-->
+                    <!--                          <img-->
+                    <!--                            :src="featuredCategory.imageSrc"-->
+                    <!--                            :alt="featuredCategory.imageAlt"-->
+                    <!--                            class="object-cover object-center" />-->
+                    <!--                        </div>-->
+                    <!--                        <a-->
+                    <!--                          :href="featuredCategory.href"-->
+                    <!--                          class="mt-6 block font-medium text-gray-900">-->
+                    <!--                          <span-->
+                    <!--                            class="absolute inset-0 z-10"-->
+                    <!--                            aria-hidden="true" />-->
+                    <!--                          {{ featuredCategory.name }}-->
+                    <!--                        </a>-->
+                    <!--                        <p aria-hidden="true" class="mt-1">Shop now</p>-->
+                    <!--                      </div>-->
+                    <!--                    </div>-->
 
                     <div
                       v-for="category in mainCategory.categories"
@@ -121,10 +121,10 @@
                   v-for="page in navigation.pages"
                   :key="page.name"
                   class="flow-root">
-                  <a
-                    :href="page.href"
+                  <NuxtLink
+                    :to="page.href"
                     class="-m-2 block p-2 font-medium text-gray-900"
-                    >{{ page.name }}</a
+                    >{{ page.name }}</NuxtLink
                   >
                 </div>
               </div>
@@ -162,7 +162,7 @@
 
     <header class="relative bg-white">
       <p
-        class="flex h-8 items-center justify-center bg-indigo-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
+        class="flex h-8 items-center justify-center bg-blue-500 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
         Get free delivery on orders over $100
       </p>
 
@@ -179,10 +179,7 @@
 
             <!-- Logo -->
             <div class="ml-4 flex lg:ml-0">
-              <NuxtLink to="/">
-                <span class="sr-only">{{ appConfig.title }}</span>
-                <img class="h-8 w-auto" src="/gfx/kot.png" alt="" />
-              </NuxtLink>
+              <TheLogo></TheLogo>
             </div>
 
             <!-- Flyout menus -->
@@ -223,29 +220,29 @@
                       <div class="relative bg-white">
                         <div class="mx-auto max-w-7xl px-8">
                           <div class="grid grid-cols-2 gap-y-10 gap-x-8 py-16">
-                            <div class="col-start-2 grid grid-cols-2 gap-x-8">
-                              <div
-                                v-for="featuredCategory in mainCategory.featured"
-                                :key="featuredCategory.name"
-                                class="group relative text-base sm:text-sm">
-                                <div
-                                  class="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
-                                  <img
-                                    :src="featuredCategory.imageSrc"
-                                    :alt="featuredCategory.imageAlt"
-                                    class="object-cover object-center" />
-                                </div>
-                                <a
-                                  :href="featuredCategory.href"
-                                  class="mt-6 block font-medium text-gray-900">
-                                  <span
-                                    class="absolute inset-0 z-10"
-                                    aria-hidden="true" />
-                                  {{ featuredCategory.name }}
-                                </a>
-                                <p aria-hidden="true" class="mt-1">Shop now</p>
-                              </div>
-                            </div>
+                            <!--                            <div class="col-start-2 grid grid-cols-2 gap-x-8">-->
+                            <!--                              <div-->
+                            <!--                                v-for="featuredCategory in mainCategory.featured"-->
+                            <!--                                :key="featuredCategory.name"-->
+                            <!--                                class="group relative text-base sm:text-sm">-->
+                            <!--                                <div-->
+                            <!--                                  class="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">-->
+                            <!--                                  <img-->
+                            <!--                                    :src="featuredCategory.imageSrc"-->
+                            <!--                                    :alt="featuredCategory.imageAlt"-->
+                            <!--                                    class="object-cover object-center" />-->
+                            <!--                                </div>-->
+                            <!--                                <a-->
+                            <!--                                  :href="featuredCategory.href"-->
+                            <!--                                  class="mt-6 block font-medium text-gray-900">-->
+                            <!--                                  <span-->
+                            <!--                                    class="absolute inset-0 z-10"-->
+                            <!--                                    aria-hidden="true" />-->
+                            <!--                                  {{ featuredCategory.name }}-->
+                            <!--                                </a>-->
+                            <!--                                <p aria-hidden="true" class="mt-1">Shop now</p>-->
+                            <!--                              </div>-->
+                            <!--                            </div>-->
 
                             <div
                               class="row-start-1 grid grid-cols-3 gap-y-10 gap-x-8 text-sm">
@@ -288,12 +285,12 @@
                   <span class="h-6 w-px bg-gray-200" aria-hidden="true" />
                 </div>
 
-                <a
+                <NuxtLink
                   v-for="page in navigation.pages"
                   :key="page.name"
-                  :href="page.href"
+                  :to="page.href"
                   class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
-                  >{{ page.name }}</a
+                  >{{ page.name }}</NuxtLink
                 >
               </div>
             </PopoverGroup>
@@ -393,8 +390,8 @@ const open = ref(false);
 const navigation = ref({
   categoryTree: [],
   pages: [
-    { name: "Company", href: "#" },
-    { name: "Stores", href: "#" },
+    { name: "Company", href: "/page/company" },
+    // { name: "Stores", href: "#" },
   ],
 });
 

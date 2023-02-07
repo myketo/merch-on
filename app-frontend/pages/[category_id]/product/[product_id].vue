@@ -343,7 +343,7 @@ const cartStore = useCartStore();
 // cartStore.products = [];
 
 const productData = ref({});
-const selectedSize = ref({});
+const selectedSize = ref(null);
 
 onMounted(() => {
   loadProductData();

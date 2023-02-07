@@ -37,6 +37,10 @@ export const useCartStore = defineStore({
       this.cartTabOpen = !this.cartTabOpen;
     },
     remove: () => ({}),
+
+    reset() {
+      this.products = [];
+    },
   },
   getters: {
     productCount() {
@@ -44,12 +48,12 @@ export const useCartStore = defineStore({
         return a + b.amount;
       }, 0);
     },
-    totalValue() {
-      return this.products
-        .reduce(function (a, b) {
-          return a + b.price * b.amount;
-        }, 0)
-        .toFixed(2);
+    subtotalValue() {
+      const subtotalValue = this.products.reduce(function (a, b) {
+        return a + b.price * b.amount;
+      }, 0);
+
+      return parseFloat(subtotalValue).toFixed(2);
     },
   },
   persist: {

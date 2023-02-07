@@ -1,5 +1,5 @@
 export default defineAppConfig({
-  title: "Merch On",
+  title: "MerchOn",
 
   theme: {
     dark: true,

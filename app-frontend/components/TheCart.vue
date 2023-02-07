@@ -65,20 +65,23 @@
                                 :alt="product.mainImage.alt"
                                 class="h-full w-full object-cover object-center" />
                             </div>
-
                             <div class="ml-4 flex flex-1 flex-col">
                               <div>
                                 <div
-                                  class="flex justify-between text-base font-medium text-gray-900">
+                                  class="flex justify-between text-sm font-medium text-gray-900">
                                   <h3>
-                                    <a :href="product.href">{{
-                                      product.name
-                                    }}</a>
+                                    <NuxtLink
+                                      :to="`/1/product/${product.id}`"
+                                      >{{ product.name }}</NuxtLink
+                                    >
                                   </h3>
                                   <p class="ml-4">
                                     ${{ product.price * product.amount }}
                                   </p>
                                 </div>
+                                <p class="mt-1 text-sm text-gray-500">
+                                  Size: {{ product.size.name }}
+                                </p>
                                 <!--                                <p class="mt-1 text-sm text-gray-500">-->
                                 <!--                                  {{ product.color }}-->
                                 <!--                                </p>-->
@@ -109,16 +112,16 @@
                     <div
                       class="flex justify-between text-base font-medium text-gray-900">
                       <p>Subtotal</p>
-                      <p>${{ cartStore.totalValue }}</p>
+                      <p>${{ cartStore.subtotalValue }}</p>
                     </div>
                     <p class="mt-0.5 text-sm text-gray-500">
                       Shipping and taxes calculated at checkout.
                     </p>
                     <div class="mt-6">
-                      <a
-                        href="#"
+                      <NuxtLink
+                        to="/order/create"
                         class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                        >Checkout</a
+                        >Checkout</NuxtLink
                       >
                     </div>
                     <div
